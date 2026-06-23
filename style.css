@@ -91,6 +91,13 @@ body {
     animation: fadeInUp 0.6s ease-out;
 }
 
+.satellite-section .section-header,
+.satellite-section .satellite-viewer,
+.satellite-section .controls-panel,
+.satellite-section .satellite-container {
+    max-width: none;
+}
+
 .section-header {
     margin-bottom: 28px;
     padding-bottom: 18px;
@@ -112,13 +119,22 @@ body {
 /* SATELLITE SECTION */
 .satellite-section {
     position: relative;
+    width: 100vw;
+    max-width: none;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
 .satellite-viewer {
     display: grid;
-    grid-template-columns: 3.5fr 1fr;
+    grid-template-columns: 3.5fr minmax(320px, 1fr);
     gap: 28px;
     align-items: start;
+    width: 100%;
+    max-width: 100%;
 }
 
 .satellite-container {
@@ -179,6 +195,15 @@ body {
     gap: 22px;
 }
 
+.satellite-viewer {
+    display: grid;
+    grid-template-columns: 3.5fr minmax(320px, 1fr);
+    gap: 28px;
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+}
+
 .control-group {
     display: flex;
     flex-direction: column;
@@ -197,6 +222,7 @@ body {
     border-radius: 999px;
     background: #2b3443;
     outline: none;
+    appearance: none;
     -webkit-appearance: none;
 }
 
@@ -236,8 +262,11 @@ body {
     background: #161f2e;
     padding: 18px;
     border-radius: 12px;
-    margin-top: 10px;
+    margin-top: 28px;
     border: 1px solid #212b39;
+    width: 100%;
+    max-width: none;
+    grid-column: 1 / -1;
 }
 
 .province-display h4 {
