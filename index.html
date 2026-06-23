@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Detección de Incendios Forestales</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS para mapas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+</head>
+<body>
+    <!-- NAVIGATION HEADER -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <span class="logo-text">Detección de Incendios</span>
+                    <span class="logo-subtitle">Sistema Inteligente de Monitoreo</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#monitor" class="nav-link">Monitor</a></li>
+                    <li><a href="#resultados" class="nav-link">Resultados</a></li>
+                    <li><a href="#detalles" class="nav-link">Detalles</a></li>
+                    <li><a href="#info" class="nav-link">Información</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="container">
+        <!-- SECTION 1: MONITOR -->
+        <section class="section satellite-section" id="monitor">
+            <div class="section-header">
+                <h2>Monitor de Detección</h2>
+                <p>Análisis en Tiempo Real sobre Provincias Argentinas</p>
+            </div>
+
+            <div class="satellite-viewer">
+                <div class="satellite-container" id="mapContainer">
+                    <div id="map" style="width: 100%; height: 100%;"></div>
+                    <div class="status-indicator">
+                        <span class="pulse"></span>
+                        <span id="statusText">Esperando escaneo...</span>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="intensitySlider">Intensidad:</label>
+                        <input type="range" id="intensitySlider" min="1" max="100" value="50">
+                        <span id="intensityValue">50%</span>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="sensitivitySlider">Sensibilidad:</label>
+                        <input type="range" id="sensitivitySlider" min="1" max="100" value="75">
+                        <span id="sensitivityValue">75%</span>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="startBtn" class="btn btn-primary">Iniciar</button>
+                        <button id="stopBtn" class="btn btn-danger" disabled>Detener</button>
+                        <button id="resetBtn" class="btn btn-secondary">Reiniciar</button>
+                    </div>
+
+                    <div class="province-display">
+                        <h4>Provincia Detectada</h4>
+                        <div id="provinceLabel" class="province-label">--</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: RESULTADOS -->
+        <section class="section results-section" id="resultados">
+            <div class="section-header">
+                <h2>Resultados de Detección</h2>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card alert-level">
+                    <h3>Nivel de Alerta</h3>
+                    <div class="alert-display" id="alertLevel">
+                        <span class="alert-badge safe">NORMAL</span>
+                    </div>
+                    <p id="alertStatus">Sin amenazas detectadas</p>
+                </div>
+
+                <div class="result-card fire-detected">
+                    <h3>Focos Detectados</h3>
+                    <div class="big-number" id="fireCount">0</div>
+                    <p>Zonas detectadas</p>
+                </div>
+
+                <div class="result-card confidence">
+                    <h3>Confianza IA</h3>
+                    <div class="big-number" id="confidence">0%</div>
+                    <p>Precisión del análisis</p>
+                </div>
+
+                <div class="result-card area-risk">
+                    <h3>Área Afectada</h3>
+                    <div class="big-number" id="areaRisk">0</div>
+                    <p>Hectáreas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DETALLES -->
+        <section class="section details-section" id="detalles">
+            <div class="section-header">
+                <h2>Detalles de Detección</h2>
+            </div>
+
+            <div class="details-container">
+                <div class="detection-log">
+                    <h3>Historial de Eventos</h3>
+                    <div class="log-content" id="detectionLog">
+                        <p class="log-entry empty">Esperando análisis...</p>
+                    </div>
+                </div>
+
+                <div class="coordinates-info">
+                    <h3>Información Geoespacial</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Provincia:</label>
+                            <span id="province">--</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Latitud:</label>
+                            <span id="latitude">--</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Longitud:</label>
+                            <span id="longitude">--</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Temperatura:</label>
+                            <span id="temperature">--</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Humedad:</label>
+                            <span id="humidity">--</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Viento:</label>
+                            <span id="windSpeed">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: INFORMACIÓN -->
+        <section class="section model-section" id="info">
+            <div class="section-header">
+                <h2>Sistema de IA</h2>
+            </div>
+
+            <div class="model-info">
+                <div class="model-card">
+                    <h3>Arquitectura</h3>
+                    <p><strong>Tipo:</strong> Red Neuronal Convolucional</p>
+                    <p><strong>Capas:</strong> 32 niveles de procesamiento</p>
+                    <p><strong>Parámetros:</strong> 45.2 millones</p>
+                    <p><strong>Precisión:</strong> 96.8%</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Fuentes de Datos</h3>
+                    <p>Imágenes satelitales NASA MODIS</p>
+                    <p>Datos espectrales infrarrojos</p>
+                    <p>Índices espectrales normalizados</p>
+                    <p>Información meteorológica en tiempo real</p>
+                </div>
+
+                <div class="model-card">
+                    <h3>Capacidades</h3>
+                    <p>Detección de focos 0.3-50 hectáreas</p>
+                    <p>Análisis temporal continuo</p>
+                    <p>Predicción de propagación</p>
+                    <p>Alertas automáticas instantáneas</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Sistema de Detección de Incendios Forestales | Monitoreo Inteligente | 2024</p>
+    </footer>
+
+    <!-- Leaflet JS para mapas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
