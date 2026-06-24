@@ -139,14 +139,13 @@ function initializeMap() {
     // Crear mapa centrado en Argentina
     map = L.map('map').setView(ARGENTINA_CENTER, 4);
     
-    // Añadir capa oscura de CartoDB para estilo minimalista
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors © CARTO',
-        subdomains: 'abcd',
+    // Añadir capa satelital normal
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '© Esri, Maxar, Earthstar Geographics, and the GIS User Community',
         maxZoom: 19
     }).addTo(map);
 
-    console.log('Mapa inicializado en Argentina');
+    console.log('Mapa satelital inicializado en Argentina');
 }
 
 // ===== FUNCIONES DE DETECCIÓN =====
